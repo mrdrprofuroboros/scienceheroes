@@ -1,0 +1,38 @@
+{% macro invention_css(size) %}
+    <style>
+    </style>
+{% endmacro %}
+
+
+{% macro invention_card(data) %}
+<div class="card-bg">
+    <div class="card">
+        <div class="card-header">
+            <table class="card-header-table" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td><i class="fa-solid fa-graduation-cap"></i></td>
+                    <td class="card-header-table-bachelor">{{ data.competence[0] }}</td>
+                    <td class="card-header-table-master">{{ data.competence[1] }}</td>
+                    <td class="card-header-table-phd rounded-right-top-corner">{{ data.competence[2] }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-eye"></i></td>
+                    <td class="card-header-table-bachelor rounded-left-bottom-corner">{{ data.intuition[0] }}</td>
+                    <td class="card-header-table-master">{{ data.intuition[1] }}</td>
+                    <td class="card-header-table-phd">{{ data.intuition[2] }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="card-image">
+            <div class="card-image-skew-top"></div>
+            <div class="card-image-skew-bottom"></div>
+        </div>
+        <div class="card-info">
+            {% block info %}{% endblock %}
+        </div>
+        <div class="card-footer">
+            {% block footer %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endmacro %}

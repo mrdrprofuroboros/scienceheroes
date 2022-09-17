@@ -1,0 +1,194 @@
+{% macro scientist_css(size) %}
+    <style>
+        .scientist-header {
+            width: 100%;
+            height: 12%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .scientist-image {
+            width: 100%;
+            height: 60%;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+        .scientist-info {
+            width: 97%;
+            height: 40%;
+            position: absolute;
+            top: 54%;
+            left: 0;
+            padding: 1mm;
+            font-size: {{ 'xx-small' if size == 'small' else 'x-small' }};
+            z-index: 5;
+        }
+        .scientist-footer {
+            display: flex;
+            width: 97%;
+            height: 17%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 1mm;
+            font-size: {{ 'xx-small' if size == 'small' else 'x-small' }};
+            font-style: italic;
+            font-family: serif;
+            z-index: 5;
+            color: var(--master-color);
+        }
+        .scientist-footer span {
+            align-self: flex-end;
+        }
+        .scientist-header-table {
+            position: relative;
+            top: -0.5mm;
+            left: 64.1%;
+            width: 36%;
+            height: 60%;
+            table-layout: fixed;
+            font-size: inherit;
+            text-align: center;
+        }
+        .scientist-header-table-bachelor {
+            background-color: var(--bachelor-color);
+        }
+        .scientist-header-table-master {
+            background-color: var(--master-color);
+        }
+        .scientist-header-table-phd {
+            background-color: var(--phd-color);
+        }
+        .rounded-left-bottom-corner {
+            border-radius: 0 0 0 2mm;
+            box-sizing: border-box;
+        }
+        .rounded-right-top-corner {
+            border-radius: 0 2mm 0 0;
+            box-sizing: border-box;
+        }
+        .scientist-image-skew-top {
+            position: relative;
+            height: 50%;
+            width: 104%;
+            transform: skewY(18deg);
+            top: 10%;
+            left: -1mm;
+            border-radius: 5mm 0 0 0;
+        }
+        .scientist-image-skew-bottom {
+            position: relative;
+            height: 50%;
+            width: 104%;
+            transform: skewY(-5deg);
+            top: -15%;
+            left: -1mm;
+        }
+        .scientist-image-skew-bottom-white {
+            position: relative;
+            height: 40%;
+            width: 104%;
+            transform: skewY(-5deg);
+            top: -16%;
+            left: -1mm;
+            z-index: 3;
+            background-color: white;
+        }
+        .scientist-image-vertical-text {
+            position: absolute;
+            transform: rotate(-90deg);
+            transform-origin: top left;
+            top: 84%;
+            width: 76%;
+            left: 1mm;
+            z-index: 2;
+            line-height: 0.63rem;
+        }
+        .scientist-image-central-icon {
+            position: relative;
+            font-size: {{ 'x-large' if size == 'small' else 'xxx-large' }};
+            justify-content: center;
+            display: flex;
+            width: 100%;
+            top: -60%;
+        }
+        .scientist-image-area-icon {
+            position: absolute;
+            font-size: small;
+            width: 100%;
+            top: 32mm;
+            z-index: 4;
+            left: 37.7mm;
+        }
+        .scientist-image-central-photo {
+            width: 103%;
+            position: absolute;
+            top: 10%;
+            left: -1mm;
+            z-index: 1;
+            -webkit-mask-image: -webkit-linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%);
+        }
+        .hint-circle {
+            display: inline;
+            background-color: var(--hint-color);
+            border-radius: 50%;
+            width: 2.6mm;
+            height: 2.6mm;
+            justify-content: center;
+            display: inline-flex;
+        }
+        .icon-small {
+            width: 3.4mm;
+        }
+        .scientist-footer-qr-code {
+            position: relative;
+            height: 100%;
+        }
+    </style>
+{% endmacro %}
+
+{% macro scientist_card(data, area_icons) %}
+<div class="card-bg">
+    <div class="card">
+        <div class="scientist-header">
+            <table class="scientist-header-table" cellspacing="0" cellpadding="0">
+                <colgroup>
+                    <col style="width:32%">
+                    <col style="width:32%">
+                    <col style="width:36%">
+                </colgroup>  
+                <tbody>
+                    <tr>
+                        {# <td><i class="fa-solid fa-graduation-cap"></i></td> #}
+                        <td class="scientist-header-table-bachelor rounded-left-bottom-corner"><b>{{ data.intuition[0] }}</b></td>
+                        <td class="scientist-header-table-master"><b>{{ data.intuition[1] }}</b></td>
+                        <td class="scientist-header-table-phd"><b>{{ data.intuition[2] }}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="scientist-image">
+            <div class="scientist-image-skew-top {{ data.area | lower }}-bg"></div>
+            <div class="scientist-image-skew-bottom {{ data.area | lower }}-bg"></div>
+            <div class="scientist-image-vertical-text"><b>{{ data.name }}</b></div>
+            <img src="media/images/scientists/{{ data.name }}.png" class="scientist-image-central-photo">
+            <div class="scientist-image-skew-bottom-white"></div>
+            <div class="scientist-image-area-icon">
+                {% if data.area | lower in ['math'] %}
+                <img src="media/icons/{{ data.area | lower }}.png" class="icon-small">
+                {% else %}
+                <i class="fa-solid {{ area_icons[data.area | lower] }}"></i>
+                {% endif %}
+            </div>
+        </div>
+        <div class="scientist-info">
+            <span>{{ data.perk }}</span>
+        </div>
+        <div class="scientist-footer">
+            <span>{{ data.desc }}</span>
+        </div>
+    </div>
+    <div class="card-border"></div>
+</div>
+{% endmacro %}
