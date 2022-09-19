@@ -30,7 +30,12 @@ def make_scientist(card, areas, perks, actions):
     rename_image(card['name'], actions)
 
     area = areas[card['idList']]
-    perk = perks[area].pop()
+
+    perk = _.get(card, 'labels.0.name')
+    if perk:
+        perk = _.find(perks[area], lambda x: perk in x)
+    else:
+        perk = perks[area].pop()
 
     hint = perk.split('}')
     if len(hint) == 1:
@@ -94,7 +99,10 @@ def prepare_scientists_data():
 
     for a, p in perks.items():
         random.shuffle(p)
-        print(a, len(p))
+    #     for pp in p:
+    #         print(a, pp)
+    #         print()
+        # print(a, len(p))
 
     return [
         make_scientist(card, areas, perks, actions[card['id']])
