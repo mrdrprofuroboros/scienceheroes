@@ -35,6 +35,7 @@ def make_scientist(card, areas, perks, actions):
     if perk:
         perk = _.find(perks[area], lambda x: perk in x)
     else:
+        print(f"no perk on scientist card: {card['name']}")
         perk = perks[area].pop()
 
     hint = perk.split('}')
