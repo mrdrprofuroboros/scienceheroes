@@ -1,15 +1,6 @@
 {% from 'scientist.html.jinja2' import scientist_card, scientist_css %}
 {% from 'invention.html.jinja2' import invention_card, invention_css %}
 {% set on_page = 16 if size == 'small' else 9 -%}
-{% set area_icons = {
-    'tech': 'fa-gear',
-    'phis': 'fa-atom',
-    'biom': 'fa-dna',
-    'envi': 'fa-globe',
-    'math': 'fa-brain',
-    'phil': 'fa-yin-yang'
-} -%}
-
 <html>
 <head>
     <script src="https://kit.fontawesome.com/f91633afc7.js" crossorigin="anonymous"></script>
@@ -26,7 +17,7 @@
             --phis-color: #407CB1;
             --biom-color: #63C67A;
             --envi-color: #EAC443;
-            --math-color: #485363;
+            --math-color: #5b6676;
             --phil-color: #C8C8C8;
         }
         body {
@@ -97,7 +88,14 @@
     {% if loop.index0 % on_page == 0 %}
     <div class="pagebreak"></div>
     {% endif %}
-    {{ scientist_card(scientist, area_icons) }}
+    {{ scientist_card(scientist) }}
+    {% endfor %}
+
+    {% for invention in inventions %}
+    {% if loop.index0 % on_page == 0 %}
+    <div class="pagebreak"></div>
+    {% endif %}
+    {{ invention_card(invention) }}
     {% endfor %}
 </body>
 </html>

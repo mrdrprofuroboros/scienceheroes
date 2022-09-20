@@ -26,6 +26,10 @@ def rename_image(name, actions):
                 os.rename(f"media/images/scientists/{old}.png", f"media/images/scientists/{name}.png")
 
 
+def randint3(mid):
+    return random.randint(mid-1, mid+1)
+
+
 def make_scientist(card, areas, perks, actions):
     rename_image(card['name'], actions)
 
@@ -33,35 +37,23 @@ def make_scientist(card, areas, perks, actions):
 
     perk = _.get(card, 'labels.0.name')
     if perk:
-        perk = _.find(perks[area], lambda x: perk in x)
+        text = _.find(perks[area], lambda x: perk in x)
     else:
         print(f"no perk on scientist card: {card['name']}")
-        perk = perks[area].pop()
+        text = perks[area].pop()
 
-    hint = perk.split('}')
-    if len(hint) == 1:
-        hint = None
-    else:
-        hint, perk = hint[0][1:], hint[1]
-
-    perk = perk.split('-', 1)
-    perk = f"<b>{perk[0]}</b> - {perk[1]}"
-
-    hint_icons = {
-        '[active]': '<div class="hint-circle"><i class="fa-solid fa-arrow-down"></i></div>',
-        '[patent]': '<div class="hint-circle"><i class="fa-solid fa-stamp"></i></div>',
-    }
-    for old, new in hint_icons.items():
-        perk = perk.replace(old, new)
+    text = text.split('-', 1)
+    text = f"<b> {text[0]} </b> - {text[1]}"
 
     link, n, desc = card['desc'].partition('\n')
 
     return {
         'name': card['name'],
         'area': area,
-        'intuition': [2, 5, 10],
+        'comp': [randint3(4), randint3(6), randint3(8)],
         'perk': perk,
-        'desc': desc
+        'text': text,
+        'desc': desc,
     }
 
 
@@ -112,6 +104,20 @@ def prepare_scientists_data():
     ]
 
 
+def get_stats(level, areas):
+    """returns stars, comp, cost"""
+    if {'MATH', 'PHIL'} & set(areas):
+        return 4, randint3(9), randint3(5)
+    if 'INT2' in areas:
+        return 6, randint3(15), randint3(7)
+    if 'INT3' in areas:
+        return 8, randint3(21), randint3(9)
+
+    lvl2comp = {1: 4, 2: 9, 3: 15, 4: 21}
+    lvl2cost = {1: 3, 2: 5, 3: 7, 4: 9}
+    stars = 2 * level - 1 + int('ENVI' in areas)
+    return stars, randint3(lvl2comp[level]), randint3(lvl2cost[level])
+
 def make_invention(card, perks):
     areas = []
     for label in card['labels']:
@@ -121,6 +127,7 @@ def make_invention(card, perks):
             level = int(label['name'])
 
     year, desc = card['name'].split(' ', 1)
+    stars, comp, cost = get_stats(level, areas)
 
     return {
         'year': year,
@@ -128,6 +135,9 @@ def make_invention(card, perks):
         'areas': areas,
         'level': level,
         'perk': _.map_(areas, lambda a: perks[a]),
+        'stars': stars,
+        'comp': comp,
+        'cost': cost,
     }
 
 
