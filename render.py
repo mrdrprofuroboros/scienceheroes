@@ -118,6 +118,7 @@ def get_stats(level, areas):
     stars = 2 * level - 1 + int('ENVI' in areas)
     return stars, randint3(lvl2comp[level]), randint3(lvl2cost[level])
 
+
 def make_invention(card, perks):
     areas = []
     for label in card['labels']:
@@ -127,14 +128,20 @@ def make_invention(card, perks):
             level = int(label['name'])
 
     year, desc = card['name'].split(' ', 1)
+    try:
+        desc, who = desc[:-1].rsplit('(', 1)
+    except:
+        print(desc)
+        who = ''
     stars, comp, cost = get_stats(level, areas)
 
     return {
         'year': year,
         'desc': desc,
-        'areas': areas,
+        'who': who,
+        'areas': sorted(areas),
+        'colors': sorted(areas * (6//len(areas))),
         'level': level,
-        'perk': _.map_(areas, lambda a: perks[a]),
         'stars': stars,
         'comp': comp,
         'cost': cost,

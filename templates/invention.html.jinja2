@@ -1,48 +1,161 @@
+{% set area_hints = {
+    'TECH': ['flag-checkered x-half-small', 'plus', '1', 'dollar-sign'],
+    'PHIS': ['arrow-right-to-bracket', 'lightbulb x-half-small'],
+    'BIOM': ['user', 'b', 'arrow-up'],
+    'ENVI': ['plus', '1', 'star'],
+    'MATH': ['flag-checkered x-half-small', 'plus', '2', 'coins'],
+    'PHIL': ['calculator', 'calculator', 'calculator', 'trash-can x-half-small', 'arrows-rotate']
+} %}
+
 {% macro invention_css(size) %}
-    <style>
-        .invention-header {
-            width: 100%;
-            height: 12%;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        .invention-image {
-            width: 100%;
-            height: 60%;
-            position: relative;
-            top: 0;
-            left: 0;
-        }
-        .invention-info {
-            width: 97%;
-            height: 40%;
-            position: absolute;
-            top: 54%;
-            left: 0;
-            padding: 1mm;
-            font-size: {{ 'xx-small' if size == 'small' else 'x-small' }};
-            z-index: 5;
-        }
-        .invention-footer {
-            display: flex;
-            width: 97%;
-            height: 17%;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            padding: 1mm;
-            font-size: {{ 'xx-small' if size == 'small' else 'x-small' }};
-            font-style: italic;
-            font-family: serif;
-            line-height: 0.6rem;
-            z-index: 5;
-            color: var(--master-color);
-        }
-        .invention-footer span {
-            align-self: flex-end;
-        }
-    </style>
+<style>
+    .invention-header {
+        width: 100%;
+        height: 12%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .invention-header-table {
+        font-size: 0.7rem;
+        width: 100%;
+        padding: 1mm;
+    }
+
+    .invention-header-table i {
+        padding-right: 0.1rem;
+    }
+
+    .invention-image {
+        width: 100%;
+        height: 60%;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .invention-image-hexagon {
+        --s: 33mm;
+        transform: rotate(-8deg);
+        position: absolute;
+        left: 2mm;
+        top: 5mm;
+    }
+
+    .invention-image-hexagon-slice {
+        width: var(--s);
+        height: calc(var(--s) * 1.1547);
+        display: block;
+        position: absolute;
+    }
+
+    .invention-image-hexagon-1 {
+        clip-path: polygon(50% 0%, 0% 25%, 49% 51%, 51% 51%);
+    }
+    .invention-image-hexagon-2 {
+        clip-path: polygon(0% 25%, 0% 75%, 51% 51%, 50% 50%);
+    }
+    .invention-image-hexagon-3 {
+        clip-path: polygon(0% 75%, 50% 100%, 51% 49%, 50% 50%);
+    }
+    .invention-image-hexagon-4 {
+        clip-path: polygon(50% 100%, 100% 75%, 51% 49%, 50% 50%);
+    }
+    .invention-image-hexagon-5 {
+        clip-path: polygon(100% 75%, 100% 25%, 50% 49%, 50% 50%);
+    }
+    .invention-image-hexagon-6 {
+        clip-path: polygon(100% 25%, 50% 0%, 50% 50%);
+    }
+
+    .invention-image-icon {
+        height: 10mm;
+        width: 10mm;
+        position: absolute;
+        opacity: 0.8;
+    }
+    .invention-image-icon-1 {
+        left: 38%;
+        top: 42%;
+    }
+    .invention-image-icon-2-1 {
+        left: 19%;
+        top: 45%;
+    }
+    .invention-image-icon-2-2 {
+        left: 57%;
+        top: 39%;
+    }
+    .invention-image-icon-3-1 {
+        left: 17%;
+        top: 34%;
+    }
+    .invention-image-icon-3-2 {
+        left: 41%;
+        top: 67%;
+    }
+    .invention-image-icon-3-3 {
+        left: 57%;
+        top: 27%;
+    }
+
+    .invention-image-vertical-text {
+        position: absolute;
+        transform: rotate(-90deg);
+        transform-origin: top left;
+        top: 84%;
+        width: 76%;
+        left: 1mm;
+        z-index: 4;
+        line-height: 0.63rem;
+    }
+
+    .invention-info {
+        width: 97%;
+        height: 40%;
+        position: absolute;
+        top: 64%;
+        left: 0;
+        padding: 1mm;
+        font-size: xx-small;
+        z-index: 5;
+    }
+
+    .invention-info-hint {
+        position: absolute;
+        right: 2mm;
+        top: -9mm;
+        height: 9mm;
+        text-align: right;
+        letter-spacing: -0.05rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    .invention-info-hint div {
+        padding-top: 0.7mm;
+    }
+    .invention-footer {
+        display: flex;
+        width: 97%;
+        height: 17%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 1mm;
+        font-size: xx-small;
+        font-style: italic;
+        font-family: serif;
+        line-height: 0.6rem;
+        z-index: 5;
+        color: var(--master-color);
+    }
+
+    .invention-footer span {
+        align-self: flex-end;
+    }
+</style>
 {% endmacro %}
 
 
@@ -50,13 +163,55 @@
 <div class="card-bg">
     <div class="card">
         <div class="invention-header">
-        {{data}}
+            <table class="invention-header-table" cellspacing="0" cellpadding="0">
+                <colgroup>
+                    <col style="width:64%">
+                    <col style="width:22%">
+                    <col style="width:14%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td><b><i class="fa-solid fa-star"></i>{{ data.stars }}</b></td>
+                        <td><b><i class="fa-solid fa-graduation-cap"></i>{{ data.comp }}</b></td>
+                        <td><b><i class="fa-solid fa-dollar-sign"></i>{{ data.cost }}</b></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="invention-image">
+            <div class="invention-image-hexagon">
+                {% for area in data.colors %}
+                <div class="invention-image-hexagon-slice invention-image-hexagon-{{ loop.index }} {{ area | lower }}-bg"></div>
+                {% endfor %}
+            </div>
+            {% if data.areas | length == 1 %}
+            <img class="invention-image-icon invention-image-icon-1" src="media/icons/{{ data.areas[0] | lower }}.png">
+            {% elif data.areas | length == 2 %}
+            <img class="invention-image-icon invention-image-icon-2-1" src="media/icons/{{ data.areas[0] | lower }}.png">
+            <img class="invention-image-icon invention-image-icon-2-2" src="media/icons/{{ data.areas[1] | lower }}.png">
+            {% else %}
+            <img class="invention-image-icon invention-image-icon-3-1" src="media/icons/{{ data.areas[0] | lower }}.png">
+            <img class="invention-image-icon invention-image-icon-3-2" src="media/icons/{{ data.areas[1] | lower }}.png">
+            <img class="invention-image-icon invention-image-icon-3-3" src="media/icons/{{ data.areas[2] | lower }}.png">
+            {% endif %}
+            <div class="scientist-image-vertical-text"><b>{{ data.year }}</b></div>
         </div>
         <div class="invention-info">
+            <div class="invention-info-hint">
+                {% for area in data.areas %}
+                {% if area != 'ENVI' %}
+                <div>
+                    {% for icon in area_hints.get(area, []) %}
+                    <i class="fa-solid fa-{{ icon }}"></i>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <span>{{ data.desc }}</span>
         </div>
         <div class="invention-footer">
+            <span>{{ data.who }}</span>
         </div>
     </div>
 </div>
