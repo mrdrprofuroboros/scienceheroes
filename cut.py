@@ -64,16 +64,16 @@ def cut_misc(images):
 
 
 print('reading pdf...')
-images = convert_from_path('pnp.pdf', dpi=300, first_page=25)
+images = convert_from_path('pnp.pdf', dpi=300) #, first_page=25)
 
 print('saving pages...')
 for i, image in tqdm(enumerate(images), total=len(images)):
     image.save(f"tabletopia/pages/{i}.png")
 
-# slice_page_to_cards(images[:8], 'scientists')
-# slice_page_to_cards(images[8:24], 'inventions')
+slice_page_to_cards(images[:8], 'scientists')
+slice_page_to_cards(images[8:24], 'inventions')
 
-# os.rename('tabletopia/scientists/126.png', 'tabletopia/inventions/bg.png')
-# os.rename('tabletopia/scientists/127.png', 'tabletopia/scientists/bg.png')
+os.rename('tabletopia/scientists/126.png', 'tabletopia/inventions/bg.png')
+os.rename('tabletopia/scientists/127.png', 'tabletopia/scientists/bg.png')
 
-cut_misc(images)
+cut_misc(images[24:])
