@@ -16,7 +16,7 @@ def add_corners(im, rad):
     im.putalpha(alpha)
     return im
 
-def slice_part(images, folder):
+def slice_page_to_cards(images, folder):
     print(f"cropping {folder}...")
     with tqdm(total=16*len(images)) as pbar:
         for page, image in enumerate(images):
@@ -40,15 +40,40 @@ def slice_part(images, folder):
                     add_corners(im, 40).save(f"tabletopia/{folder}/{n}.png")
                     pbar.update(1)
 
+
+def cut_misc(images):
+    print(f"cropping misc...")
+    sx, sy = 488, 180
+    x = 221
+    positions = [
+        (118, 'bachelor'),
+        (1037, 'master'),
+        (1959, 'phd'),
+    ]
+    for y, name in positions:
+        im = images[0].crop((x, y, x+sx, y+sy))
+        add_corners(im, 40).save(f"tabletopia/misc/{name}.png")
+
+    # coin
+    im = images[1].crop((220, 117, 402, 299))
+    add_corners(im, 91).save(f"tabletopia/misc/xcoin.png")
+
+    # field
+    im = images[1].crop((220, 301, 1242, 1323))
+    add_corners(im, 40).save(f"tabletopia/misc/field.png")
+
+
 print('reading pdf...')
-images = convert_from_path('pnp.pdf', dpi=300)
+images = convert_from_path('pnp.pdf', dpi=300, first_page=25)
 
 print('saving pages...')
 for i, image in tqdm(enumerate(images), total=len(images)):
     image.save(f"tabletopia/pages/{i}.png")
 
-slice_part(images[:8], 'scientists')
-slice_part(images[8:24], 'inventions')
+# slice_page_to_cards(images[:8], 'scientists')
+# slice_page_to_cards(images[8:24], 'inventions')
 
-os.rename('tabletopia/scientists/126.png', 'tabletopia/inventions/bg.png')
-os.rename('tabletopia/scientists/127.png', 'tabletopia/scientists/bg.png')
+# os.rename('tabletopia/scientists/126.png', 'tabletopia/inventions/bg.png')
+# os.rename('tabletopia/scientists/127.png', 'tabletopia/scientists/bg.png')
+
+cut_misc(images)

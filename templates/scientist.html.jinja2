@@ -52,7 +52,7 @@
     'Энциклопедист': ['graduation-cap', 'arrows-left-right', 'graduation-cap'],
 } %}
 
-{% macro scientist_css(size) %}
+{% macro scientist_css() %}
 <style>
     .scientist-header {
         width: 103%;
@@ -72,18 +72,6 @@
         font-size: 0.7rem;
         text-align: center;
         z-index: 4;
-    }
-
-    .scientist-header-table-bachelor {
-        background-color: var(--bachelor-color);
-    }
-
-    .scientist-header-table-master {
-        background-color: var(--master-color);
-    }
-
-    .scientist-header-table-phd {
-        background-color: var(--phd-color);
     }
 
     .rounded-left-bottom-corner {
@@ -208,8 +196,8 @@
 {% endmacro %}
 
 {% macro scientist_card(data) %}
-<div class="card-bg">
-    <div class="card">
+<div class="card-bg standard-card">
+    <div class="card white-bg">
         <div class="scientist-header">
             <table class="scientist-header-table" cellspacing="0" cellpadding="0">
                 <colgroup>
@@ -219,10 +207,10 @@
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td class="scientist-header-table-bachelor rounded-left-bottom-corner"><b>{{ data.comp[0] }}</b>
+                        <td class="bachelor-bg rounded-left-bottom-corner"><b>{{ data.comp[0] }}</b>
                         </td>
-                        <td class="scientist-header-table-master"><b>{{ data.comp[1] }}</b></td>
-                        <td class="scientist-header-table-phd"><b>{{ data.comp[2] }}</b></td>
+                        <td class="master-bg"><b>{{ data.comp[1] }}</b></td>
+                        <td class="phd-bg"><b>{{ data.comp[2] }}</b></td>
                     </tr>
                 </tbody>
             </table>

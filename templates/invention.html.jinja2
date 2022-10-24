@@ -7,7 +7,7 @@
     'PHIL': ['calculator', 'calculator', 'calculator', 'trash-can x-half-small', 'arrows-rotate']
 } %}
 
-{% macro invention_css(size) %}
+{% macro invention_css() %}
 <style>
     .invention-header {
         width: 100%;
@@ -160,8 +160,8 @@
 
 
 {% macro invention_card(data) %}
-<div class="card-bg">
-    <div class="card">
+<div class="card-bg standard-card">
+    <div class="card white-bg">
         <div class="invention-header">
             <table class="invention-header-table" cellspacing="0" cellpadding="0">
                 <colgroup>

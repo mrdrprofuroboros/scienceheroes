@@ -1,7 +1,15 @@
 {% from 'scientist.html.jinja2' import scientist_card, scientist_css %}
 {% from 'invention.html.jinja2' import invention_card, invention_css %}
-<html>
+{% from 'misc.html.jinja2' import position_card, center_card, coin, misc_css %}
 
+{% set players = 6 %}
+{% set positions_num = {
+    'Bachelor': 3 * players + 2,
+    'Master': 3 * players,
+    'PhD': 3 * players + 2,
+} %}
+
+<html>
 <head>
     <script src="https://kit.fontawesome.com/f91633afc7.js" crossorigin="anonymous"></script>
     <style>
@@ -9,7 +17,7 @@
             --border-color: #506381;
 
             --bachelor-color: #C8C8C8;
-            --master-color: #A0A0A0;
+            --master-color: #8c8c8c;
             --phd-color: #656364;
 
             --tech-color: #D65743;
@@ -41,35 +49,31 @@
             font-size: 0.65rem;
         }
 
-        .tech-bg {
-            background-color: var(--tech-color);
-        }
-        .phis-bg {
-            background-color: var(--phis-color);
-        }
-        .biom-bg {
-            background-color: var(--biom-color);
-        }
-        .envi-bg {
-            background-color: var(--envi-color);
-        }
-        .math-bg {
-            background-color: var(--math-color);
-        }
-        .phil-bg {
-            background-color: var(--phil-color);
+        .tech-bg { background-color: var(--tech-color); }
+        .phis-bg { background-color: var(--phis-color); }
+        .biom-bg { background-color: var(--biom-color); }
+        .envi-bg { background-color: var(--envi-color); }
+        .math-bg { background-color: var(--math-color); }
+        .phil-bg { background-color: var(--phil-color); }
+
+
+        .bachelor-bg { background-color: var(--bachelor-color); }
+        .master-bg { background-color: var(--master-color); }
+        .phd-bg { background-color: var(--phd-color); }
+        .white-bg { background-color: white; }
+
+        .standard-card {
+            width: 46mm;
+            height: 69mm;
         }
 
         .card-bg {
             background-color: var(--border-color);
-            width: 46mm;
-            height: 69mm;
             display: inline-block;
             position: relative;
         }
 
         .card {
-            background-color: white;
             border: 2mm solid var(--border-color);
             border-radius: 4mm;
             box-sizing: border-box;
@@ -103,8 +107,9 @@
             opacity: 0.8;
         }
     </style>
-    {{ scientist_css(size) }}
-    {{ invention_css(size) }}
+    {{ scientist_css() }}
+    {{ invention_css() }}
+    {{ misc_css() }}
 </head>
 
 <body>
@@ -116,7 +121,7 @@
     {% endfor %}
 
     {% for icon in ['lightbulb', 'graduation-cap'] %}
-    <div class="card-bg">
+    <div class="card-bg standard-card">
         <div class="card-bg-icon">
             <i class="fa-solid fa-{{ icon }}"></i>
         </div>
@@ -131,6 +136,21 @@
     {{ invention_card(invention) }}
     {% endfor %}
 
+    <div class="pagebreak"></div>
+    {% for position in ['Bachelor', 'Master', 'PhD'] %}
+    {% for i in range(positions_num[position]) %}
+    {{ position_card(position) }}
+    {% endfor %}
+    {% endfor %}
+
+    <div class="pagebreak"></div>
+    {% for icon in ['x'] %}
+    {% for i in range(10) %}
+    {{ coin(icon) }}
+    {% endfor %}
+    {% endfor %}
+    
+    {{ center_card() }}
 </body>
 
 </html>

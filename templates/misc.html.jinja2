@@ -1,0 +1,125 @@
+{% set position_ru = {
+    'Bachelor': 'Бакалавр',
+    'Master': 'Магистр',
+    'PhD': 'Доктор',
+} %}
+
+{% macro misc_css() %}
+<style>
+    .position-card {
+        width: 48mm;
+        height: 18mm;
+    }
+
+    .position-container {
+        text-align: center;
+        padding-top: 1mm;
+    }
+
+    .position-pick-hint {
+        position: absolute;
+        top: 2mm;
+        left: 2mm;
+        height: 9mm;
+        width: 9mm;
+    }
+
+    .position-dice-place {
+        position: absolute;
+        top: 2.8mm;
+        right: 2.8mm;
+        font-size: xx-large;
+    }
+
+    .center-card {
+        width: 100mm;
+        height: 100mm;
+    }
+
+    .center-card-bg {
+        height: 0;
+        width: 0;
+        border-top: 48mm solid var(--tech-color);
+        border-right: 48mm solid var(--phis-color);
+        border-bottom: 48mm solid var(--envi-color);
+        border-left: 48mm solid var(--biom-color);
+    }
+
+    .center-icon {
+        position: absolute;
+        width: 20mm;
+        height: 20mm;
+        opacity: 0.8;
+    }
+    .center-icon-tech {
+        top: 12%;
+        left: 40%;
+    }
+    .center-icon-phis {
+        top: 40%;
+        right: 12%;
+    }
+    .center-icon-envi {
+        bottom: 12%;
+        left: 40%;
+    }
+    .center-icon-biom {
+        top: 40%;
+        left: 12%;
+    }
+
+    .coin {
+        display: inline-block;
+        position: relative;
+        width: 18mm;
+        height: 18mm;
+        border-radius: 50%;
+        border: 2mm solid var(--border-color);
+        box-sizing: border-box;
+        text-align: center;
+        padding-top: 2.8mm;
+        font-size: xx-large;
+    }
+</style>
+{% endmacro %}
+
+
+{% macro position_card(position) %}
+<div class="card-bg position-card">
+    <div class="card {{ position | lower }}-bg">
+        <div class="position-container">
+            <h2>{{ position_ru.get(position) }}</h2>
+            {% if position == 'PhD' %}
+            <div class="position-dice-place"><i class="fa-solid fa-dice-five"></i></div>
+            <img class="position-pick-hint" src="media/icons/any-two-cards.png">
+            {% elif position == 'Master' %}
+            <img class="position-pick-hint" src="media/icons/two-equal-cards.png">
+            {% else %}
+            <img class="position-pick-hint" src="media/icons/one-equal-card.png">
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-border"></div>
+</div>
+{% endmacro %}
+
+
+{% macro center_card() %}
+<div class="card-bg center-card">
+    <div class="card">
+        <div class="center-card-bg"></div>
+        <img class="center-icon center-icon-tech" src="media/icons/tech.png">
+        <img class="center-icon center-icon-phis" src="media/icons/phis.png">
+        <img class="center-icon center-icon-envi" src="media/icons/envi.png">
+        <img class="center-icon center-icon-biom" src="media/icons/biom.png">
+    </div>
+    <div class="card-border"></div>
+</div>
+{% endmacro %}
+
+
+{% macro coin(icon) %}
+<div class="coin">
+    <i class="fa-solid fa-{{ icon }}"></i>
+</div>
+{% endmacro %}
